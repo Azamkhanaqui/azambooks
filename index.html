@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azam Books - A Journey Through Classic Literature</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: #2c2c2c;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .parallax-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+        }
+        
+        header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1200') center/cover;
+            color: #f9f7f4;
+            text-align: center;
+            animation: fadeInUp 1.5s ease;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            animation: fadeInUp 2s ease;
+        }
+        
+        header h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 8px;
+            font-weight: 300;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        header p {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            font-style: italic;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
+            animation: fadeInUp 2.5s ease;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 3rem;
+            color: #f9f7f4;
+            opacity: 0.7;
+        }
+        
+        .story-section {
+            position: relative;
+            padding: 6rem 2rem;
+            background: #f9f7f4;
+        }
+
+        .story-section:nth-child(even) {
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .story-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 6rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .story-block:nth-child(even) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .story-block:nth-child(even) .story-image {
+            order: 2;
+        }
+
+        .story-block:nth-child(even) .story-text {
+            order: 1;
+        }
+        
+        .story-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.6s ease;
+        }
+
+        .story-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.1);
+        }
+        
+        .story-text h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #16213e;
+            font-weight: 400;
+            position: relative;
+            display: inline-block;
+        }
+
+        .story-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #16213e, #8b4513);
+            transition: width 0.6s ease;
+        }
+
+        .story-block:hover .story-text h2::after {
+            width: 100%;
+        }
+        
+        .story-text p {
+            font-size: 1.2rem;
+            line-height: 2;
+            text-align: justify;
+            color: #2c2c2c;
+        }
+
+        .hero-image-section {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+                        url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1200') center/cover fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-quote {
+            text-align: center;
+            color: #f9f7f4;
+            padding: 3rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-quote p {
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hero-quote cite {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        .book-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+        
+        .book-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .book-card:nth-child(1) { animation-delay: 0.2s; }
+        .book-card:nth-child(2) { animation-delay: 0.4s; }
+        .book-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        .book-card:hover {
+            transform: translateY(-15px) rotate(1deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        .book-card-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .book-card:hover .book-card-image {
+            transform: scale(1.1);
+        }
+
+        .book-card-content {
+            padding: 2rem;
+        }
+        
+        .book-card h3 {
+            color: #16213e;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .book-card .author {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .book-card p {
+            line-height: 1.8;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            color: #16213e;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #16213e, transparent);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f9f7f4;
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        footer p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+
+            header p {
+                font-size: 1.3rem;
+            }
+            
+            .story-block {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+            }
+
+            .story-block:nth-child(even) .story-image,
+            .story-block:nth-child(even) .story-text {
+                order: 0;
+            }
+
+            .story-text h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .book-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-quote p {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hero-content">
+            <h1>AZAM BOOKS</h1>
+            <p>A Visual Journey Through Classic Literature</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </header>
+
+    <div class="story-section">
+        <div class="container">
+            <div class="story-block">
+                <div class="story-image">
+                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c6500c67773215.5b45be05062fa.jpg" alt="Classic books">
+                </div>
+                <div class="story-text">
+                    <h2>The Beginning</h2>
+                    <p>
+                        Every great journey begins with a single page. Welcome to Azam Books, where we explore the timeless masterpieces that have shaped human consciousness across centuries. Classic literature is not merely entertainment—it is a window into the deepest truths of human existence, a mirror reflecting our struggles, dreams, and eternal questions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-image-section">
+        <div class="hero-quote">
+            <p>"To live without Hope is to Cease to live."</p>
+            <cite>— Fyodor Dostoevsky</cite>
+        </div>
+    </div>
+
+    <div class="story-section">
+        <div class="container">
+            <div class="story-block">
+                <div class="story-image">
+                    <img src="https://cdn.britannica.com/45/181345-050-189BA6B8/Fyodor-Dostoyevsky-1876.jpg" alt="Old library">
+                </div>
+                <div class="story-text">
+                    <h2>The Russian Masters</h2>
+                    <p>
+                        In the 19th century, Russia gave birth to some of literature's most profound voices. Among them, Fyodor Dostoevsky stands as a titan—a writer who dared to peer into the darkest corners of the human psyche. His novels are not just stories; they are philosophical explorations, psychological excavations, and spiritual journeys that continue to resonate with readers today.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="story-section" style="background: #16213e; padding: 6rem 2rem;">
+        <div class="container">
+            <h2 class="section-title" style="color: #f9f7f4;">Dostoevsky's Masterpieces</h2>
+            <div class="book-showcase">
+                <div class="book-card">
+                    <img src="https://miro.medium.com/1*_he6zAv_na5pkjlMlK-0dw.jpeg" class="book-card-image" alt="Crime and Punishment">
+                    <div class="book-card-content">
+                        <h3>Crime and Punishment</h3>
+                        <p class="author">Fyodor Dostoevsky, 1866</p>
+                        <p>
+                            Follow Raskolnikov's descent into moral chaos after committing murder. This psychological masterpiece explores guilt, redemption, and the price of transgressing moral boundaries. Every page pulses with psychological intensity.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <img src="https://substackcdn.com/image/fetch/$s_!r2Tx!,f_auto,q_auto:best,fl_progressive:steep/https%3A%2F%2Franas9.substack.com%2Fapi%2Fv1%2Fpost_preview%2F141859978%2Ftwitter.jpg%3Fversion%3D4" class="book-card-image" alt="The Brothers Karamazov">
+                    <div class="book-card-content">
+                        <h3>The Brothers Karamazov</h3>
+                        <p class="author">Fyodor Dostoevsky, 1880</p>
+                        <p>
+                            Dostoevsky's final and greatest novel. Through three brothers and their father, he explores faith, doubt, free will, and morality. The Grand Inquisitor chapter remains one of literature's most powerful philosophical dialogues.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <img src="https://substackcdn.com/image/fetch/$s_!OvGn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc76c3931-f3f3-421a-b160-1cc8bb9e904c_1232x745.jpeg" class="book-card-image" alt="Notes from Underground">
+                    <div class="book-card-content">
+                        <h3>Notes from Underground</h3>
+                        <p class="author">Fyodor Dostoevsky, 1864</p>
+                        <p>
+                            The first existentialist novel. An unnamed narrator's bitter monologue dissects rationalism, free will, and human contradiction with savage honesty. Dark, profound, and unforgettably honest.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="story-section">
+        <div class="container">
+            <div class="story-block">
+                <div class="story-image">
+                    <img src="https://traditiononline.org/wp-content/uploads/2022/03/image-10.jpeg" alt="Reading books">
+                </div>
+                <div class="story-text">
+                    <h2>Beyond Russia</h2>
+                    <p>
+                        The world of classic literature extends far beyond Russian borders. From Dante's Divine Comedy to Cervantes' Don Quixote, from Marcus Aurelius' Meditations to the tragedies of ancient Greece—each work offers unique insights into the human condition. These books have survived centuries because they speak eternal truths.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-image-section" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200') center/cover fixed;">
+        <div class="hero-quote">
+            <p>"The soul is healed by being with children."</p>
+            <cite>— Fyodor Dostoevsky</cite>
+        </div>
+    </div>
+
+    <div class="story-section">
+        <div class="container">
+            <div class="story-block">
+                <div class="story-image">
+                    <img src="https://s.inyourpocket.com/gallery/148620.jpg" alt="Journey ahead">
+                </div>
+                <div class="story-text">
+                    <h2>Your Journey Awaits</h2>
+                    <p>
+                        Every classic you read is a conversation across time. These authors speak to us from centuries past, yet their words feel freshly written for our moment. At Azam Books, we celebrate this timeless dialogue. Whether you're beginning with Dostoevsky or exploring ancient philosophy, the journey through classic literature is one of endless discovery and profound transformation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Azam Books — Where Stories Live Forever</p>
+    </footer>
+</body>
+</html>
